@@ -11,6 +11,6 @@ db = mysql.connector.connect(
 
 cursor = db.cursor()
 
-cursor.execute('CREATE DATABASE IF NOT EXISTS dcrm')
+cursor.execute('CREATE DATABASE IF NOT EXISTS ethio_therapy_db')
 
 print('Created database')

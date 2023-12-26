@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'ethio_therapy_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': 'dcrm',
+        'NAME': 'ethio_therapy_db',
         'USER': 'root',
         'PASSWORD': 'password123',
         'hOST': 'localhost',
