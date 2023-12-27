@@ -1,8 +1,9 @@
 from django.urls import path
-
-from api import views
+from .views import register, user_login
 
 urlpatterns = [
-   path('',views.userList.as_view(),name='userList'),
-   path('<int:pk>',views.userDetails.as_view(),name='userDetails'),
+    
+    path('register/', register, name='register'),
+    path('login/', user_login, name='login'),
+    # Add other urlpatterns as needed
 ]
