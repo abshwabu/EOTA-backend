@@ -12,7 +12,7 @@ def register(request):
     else:
         form = UserRegistrationForm()
 
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'templates/register.html', {'form': form})
 
 def user_login(request):
     if request.method == 'POST':
@@ -27,4 +27,4 @@ def user_login(request):
     else:
         form = UserLoginForm()
 
-    return render(request, 'registration/login.html', {'form': form})
+    return render(request, 'templates/login.html', {'form': form})
