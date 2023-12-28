@@ -9,7 +9,9 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            userName = user.username,
+            password = user.password
+            login(request, {userName: user.username, password:password})
             return redirect('home')  # Redirect to the home page after registration
     else:
         form = UserRegistrationForm()
@@ -29,6 +31,5 @@ def user_login(request):
                 return redirect('home')  # Redirect to the home page after login
     else:
         form = UserLoginForm()
-
     return render(request, 'login.html', {'form': form})
 
