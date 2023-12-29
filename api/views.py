@@ -3,21 +3,19 @@ from django.contrib.auth import login, authenticate
 from .forms import UserRegistrationForm, UserLoginForm
 
 def home(request):
-    return render(request, 'home.html',{})
+    return render(request, 'home.html', {})
+
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            userName = user.username,
-            password = user.password
-            login(request, {userName: user.username, password:password})
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('home')  # Redirect to the home page after registration
     else:
         form = UserRegistrationForm()
 
     return render(request, 'register.html', {'form': form})
-
 
 def user_login(request):
     if request.method == 'POST':
@@ -31,5 +29,5 @@ def user_login(request):
                 return redirect('home')  # Redirect to the home page after login
     else:
         form = UserLoginForm()
-    return render(request, 'login.html', {'form': form})
 
+    return render(request, 'login.html', {'form': form})
