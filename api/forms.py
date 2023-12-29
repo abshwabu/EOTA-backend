@@ -4,14 +4,10 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
 
 class UserRegistrationForm(UserCreationForm):
-    phone_number = forms.CharField(label='', max_length=15, required=True,widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Phone Number'}))
-    first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
-    last_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Last Name'}))
-
-
+    
     class Meta:
-        model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'phone_number', 'password1', 'password2')
+        model = User
+        fields = ('username','password1', 'password2')
 
     def __init__(self, *args, **kwargs):
           super(UserRegistrationForm, self).__init__(*args, **kwargs)	    
@@ -30,4 +26,4 @@ class UserRegistrationForm(UserCreationForm):
 
 class UserLoginForm(AuthenticationForm):
     class Meta:
-        model = CustomUser  
+        model = User
