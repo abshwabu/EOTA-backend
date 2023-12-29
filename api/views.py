@@ -1,5 +1,6 @@
 # views.py
 from django.shortcuts import render, redirect
+from django.db import IntegrityError
 from .models import UserProfile
 from .forms import UserProfileForm
 
@@ -7,12 +8,22 @@ def register(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user_profile = UserProfile.objects.create(username=username, password=password)
-        
-        # Pass the user_id as a keyword argument to the 'additional_info' URL
-        return redirect('additional_info', user_id=user_profile.id)
-    
+
+        # Check if the username already exists
+        if UserProfile.objects.filter(username=username).exists():
+            # Handle the case where the username is already taken
+            return render(request, 'register.html', {'error_message': 'Username is already taken. Please choose a different one.'})
+
+        try:
+            # Create a new user if the username is unique
+            user_profile = UserProfile.objects.create(username=username, password=password)
+            return redirect('additional_info', user_id=user_profile.id)
+        except IntegrityError:
+            # Handle any other IntegrityError that might occur
+            return render(request, 'register.html', {'error_message': 'An error occurred during registration. Please try again.'})
+
     return render(request, 'register.html')
+
 
 # ... rest of the code ...
 
