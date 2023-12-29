@@ -1,9 +1,7 @@
-# urls.py
 from django.urls import path
-from .views import register, additional_info
+from . import views
 
 urlpatterns = [
-    path('register/', register, name='register'),
-    path('additional_info/<int:user_id>/', additional_info, name='additional_info'),  # Ensure the name matches
-    # Add other URLs as needed
+    path('register/', views.register, name='register'),
+    path('user_profile/', views.user_profile, name='user_profile'),
 ]

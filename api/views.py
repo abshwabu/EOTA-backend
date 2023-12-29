@@ -1,47 +1,24 @@
-# views.py
 from django.shortcuts import render, redirect
-from django.db import IntegrityError
-from .models import UserProfile
-from .forms import UserProfileForm
+from django.contrib.auth import login
+from .forms import RegistrationForm, UserProfileForm
 
 def register(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        # Check if the username already exists
-        if UserProfile.objects.filter(username=username).exists():
-            # Handle the case where the username is already taken
-            return render(request, 'register.html', {'error_message': 'Username is already taken. Please choose a different one.'})
-
-        try:
-            # Create a new user if the username is unique
-            user_profile = UserProfile.objects.create(username=username, password=password)
-            return redirect('additional_info', user_id=user_profile.id)
-        except IntegrityError:
-            # Handle any other IntegrityError that might occur
-            return render(request, 'register.html', {'error_message': 'An error occurred during registration. Please try again.'})
-
-    return render(request, 'register.html')
-
-
-# ... rest of the code ...
-
-
-# views.py
-from django.shortcuts import render, redirect
-from .models import UserProfile
-from .forms import UserProfileForm
-
-def additional_info(request, user_id):
-    user_profile = UserProfile.objects.get(id=user_id)
-
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, instance=user_profile)
-        if form.is_valid():
-            form.save()
-            return redirect('home')  # Redirect to the home page or any other desired page
+        registration_form = RegistrationForm(request.POST)
+        if registration_form.is_valid():
+            user = registration_form.save()
+            login(request, user)
+            return redirect('user_profile')
     else:
-        form = UserProfileForm(instance=user_profile)
+        registration_form = RegistrationForm()
+    return render(request, 'registration/register.html', {'form': registration_form})
 
-    return render(request, 'additional_info.html', {'form': form, 'user_id': user_id})
+def user_profile(request):
+    if request.method == 'POST':
+        user_profile_form = UserProfileForm(request.POST, instance=request.user.userprofile)
+        if user_profile_form.is_valid():
+            user_profile_form.save()
+            return redirect('home')  # Redirect to home or any desired page
+    else:
+        user_profile_form = UserProfileForm(instance=request.user.userprofile)
+    return render(request, 'registration/user_profile.html', {'form': user_profile_form})
