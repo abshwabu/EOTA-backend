@@ -11,7 +11,7 @@ def register(request):
             return redirect('user_profile')
     else:
         registration_form = RegistrationForm()
-    return render(request, 'registration/register.html', {'form': registration_form})
+    return render(request, 'register.html', {'form': registration_form})
 
 def user_profile(request):
     if request.method == 'POST':
@@ -21,4 +21,4 @@ def user_profile(request):
             return redirect('home')  # Redirect to home or any desired page
     else:
         user_profile_form = UserProfileForm(instance=request.user.userprofile)
-    return render(request, 'registration/user_profile.html', {'form': user_profile_form})
+    return render(request, 'user_profile.html', {'form': user_profile_form})

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>Complete Your Profile</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div id="religion-field">
+            {{ form.religion }}
+        </div>
+        <button type="submit">Save Profile</button>
+        <button id="toggle-religion">Choose Religion?</button>
+    </form>
+    <script>
+        document.getElementById('toggle-religion').addEventListener('click', function() {
+            var religionField = document.getElementById('religion-field');
+            religionField.style.display = religionField.style.display === 'none' ? '' : 'none';
+        });
+    </script>
+</body>
+</html>
