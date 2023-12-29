@@ -8,8 +8,14 @@ def register(request):
         username = request.POST['username']
         password = request.POST['password']
         user_profile = UserProfile.objects.create(username=username, password=password)
+        
+        # Pass the user_id as a keyword argument to the 'additional_info' URL
         return redirect('additional_info', user_id=user_profile.id)
+    
     return render(request, 'register.html')
+
+# ... rest of the code ...
+
 
 def additional_info(request, user_id):
     user_profile = UserProfile.objects.get(id=user_id)
