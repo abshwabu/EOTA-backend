@@ -1,33 +1,25 @@
+# views.py
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from .forms import UserRegistrationForm, UserLoginForm
-
-def home(request):
-    return render(request, 'home.html', {})
+from .models import UserProfile
+from .forms import UserProfileForm
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('home')  # Redirect to the home page after registration
-    else:
-        form = UserRegistrationForm()
+        username = request.POST['username']
+        password = request.POST['password']
+        user_profile = UserProfile.objects.create(username=username, password=password)
+        return redirect('additional_info', user_id=user_profile.id)
+    return render(request, 'register.html')
 
-    return render(request, 'register.html', {'form': form})
+def additional_info(request, user_id):
+    user_profile = UserProfile.objects.get(id=user_id)
 
-def user_login(request):
     if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
+        form = UserProfileForm(request.POST, instance=user_profile)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')  # Redirect to the home page after login
+            form.save()
+            return redirect('home')  # Redirect to the home page or any other desired page
     else:
-        form = UserLoginForm()
+        form = UserProfileForm(instance=user_profile)
 
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'additional_info.html', {'form': form})
