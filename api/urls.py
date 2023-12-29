@@ -1,9 +1,9 @@
+# urls.py
 from django.urls import path
-from .views import register, user_login,home
+from .views import register, additional_info
 
 urlpatterns = [
-    path('',home,name='home'),
     path('register/', register, name='register'),
-    path('login/', user_login, name='login'),
-    # Add other urlpatterns as needed
+    path('additional_info/<int:user_id>/', additional_info, name='additional_info'),
+    # Add other URLs as needed
 ]
