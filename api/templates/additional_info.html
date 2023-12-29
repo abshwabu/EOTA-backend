@@ -1,5 +1,6 @@
 <!-- additional_info.html -->
-<form method="post" action="{% url 'additional_info' user_id=user_profile.id %}">
+<p>User ID: {{ user_id }}</p>
+<form method="post" action="{% url 'additional_info' user_id=user_id %}">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit">

@@ -28,6 +28,11 @@ def register(request):
 # ... rest of the code ...
 
 
+# views.py
+from django.shortcuts import render, redirect
+from .models import UserProfile
+from .forms import UserProfileForm
+
 def additional_info(request, user_id):
     user_profile = UserProfile.objects.get(id=user_id)
 
@@ -39,4 +44,4 @@ def additional_info(request, user_id):
     else:
         form = UserProfileForm(instance=user_profile)
 
-    return render(request, 'additional_info.html', {'form': form})
+    return render(request, 'additional_info.html', {'form': form, 'user_id': user_id})
