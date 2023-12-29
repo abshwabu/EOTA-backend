@@ -3,6 +3,16 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Record(models.Model):
+    ISLAM = 'ISL'
+    CRISTIAN ='CRI'
+    JEW ='jew'
+    TRADITIONAL = 'TRD'
+    RELIGION = [
+        (ISLAM, 'islam'),
+        (CRISTIAN,'cristian'),
+        (TRADITIONAL, 'traditional'),
+        (JEW, 'jew'),
+    ]
     user_id = models.ForeignKey(User,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=50,null=True, blank=True)
