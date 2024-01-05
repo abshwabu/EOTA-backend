@@ -16,6 +16,11 @@ class UserProfile(models.Model):
         ('self-employed', 'Self-employed'),
         # Add more occupations as needed
     ])
-    religion = models.CharField(max_length=50, blank=True)
+    religion = models.CharField(max_length=50, blank=True, choices=[
+        ('muslim', 'Muslim'),
+        ('cristian', 'Cristian'),
+        ('athist','Athist'),
+        ('traditional','Traditional')
+    ])
     # Add other additional fields as needed
 
